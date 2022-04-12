@@ -1,0 +1,9 @@
+
+<th scope="row">{{name}}</th>
+<!--<td *ngFor="let item of data">{{ item[prop] | number : '1.2-2'  }}</td>-->
+<td [class.text-success]="check_condition(data[0][prop], success)" 
+    [class.text-danger]="check_condition(data[0][prop], danger)">
+    {{ data[0][prop] | number : '1.2-2'}}</td>
+<td>{{ data[1][prop] | number : '1.2-2'}}</td>
+<td>{{ data[2][prop] | number : '1.2-2'}}</td>
+<td>{{ data[3][prop] | number : '1.2-2'}}</td>
