@@ -108,7 +108,7 @@ export class AppComponent {
       forkJoin({
         target: this.add_company(this.main_form.value.target, true, Positions.Target, 0),
         comp1: this.add_company(this.main_form.value.comp1, false, Positions.Comp1, 750),
-        comp2: this.add_company(this.main_form.value.comp2, false, Positions.Comp2, 1500),
+        comp2: this.add_company(this.main_form.value.comp2, false, Positions.Comp2, 1750),
       }).subscribe(list => {
         let obj_avg = this.get_avg_obj();
         this.main_data.push(obj_avg)
@@ -162,7 +162,7 @@ export class AppComponent {
       return 2
   }
 
-  is_assessment() {
+  is_valuable() {
     return true
   }
 }

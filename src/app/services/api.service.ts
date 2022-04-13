@@ -26,6 +26,7 @@ export class ApiService {
 
   // Error handling
   private errorHandl(error:any) {
+    console.log('Error handle', error)
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       // Get client-side error
@@ -53,7 +54,7 @@ export class ApiService {
 
     return this.http
     .get(this.baseurl + `ratios/${ticker}?apikey=${this.apikey}`)
-    //.pipe(retry(1), catchError(this.errorHandl));
+    .pipe(retry(1), catchError(this.errorHandl));
   }
 
   public get_price(ticker:string){
@@ -61,7 +62,7 @@ export class ApiService {
 
     return this.http
     .get(this.baseurl + `quote-short/${ticker}?apikey=${this.apikey}`)
-    //.pipe(retry(1), catchError(this.errorHandl));
+    .pipe(retry(1), catchError(this.errorHandl));
   }
 
   

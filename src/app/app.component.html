@@ -95,7 +95,7 @@
 </section>
 <!-- Hero End -->
 
-<div class="position-relative">
+<div class="position-relative" *ngIf="main_status != STATUS.None">
     <div class="shape overflow-hidden text-light">
         <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor"></path>
@@ -104,8 +104,8 @@
 </div>
 
 <!-- Analysis Start -->
-<section class="section bg-light" id="analysis">
-    <div class="container" *ngIf="main_status != STATUS.None">
+<section class="section bg-light" id="analysis" *ngIf="main_status != STATUS.None"> 
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 text-center">
                 <div class="section-title">
@@ -247,12 +247,12 @@
                                         <tr app-row-ratio [data]="main_data" name="Net margin (%)" prop="netMargin"
                                             success=">10" danger="<=10"></tr>
 
-                                        <!-- Assessment ------------------------->
+                                        <!-- Valuation ------------------------->
                                         <tr class="tr-head bg-light h4">
-                                            <td>Assessment</td>
+                                            <td>Valuation</td>
                                             <td>
-                                                <i class="uil uil-check-circle text-success" *ngIf="is_assessment()"></i>
-                                                <i class="uil uil-times-circle text-danger" *ngIf="!is_assessment()"></i>
+                                                <i class="uil uil-check-circle text-success" *ngIf="is_valuable()"></i>
+                                                <i class="uil uil-times-circle text-danger" *ngIf="!is_valuable()"></i>
                                             </td>
                                             <td colspan="3"></td>
                                         </tr>
@@ -318,12 +318,12 @@
         <div class="row align-items-center">
             <div class="col-sm-6">
                 <div class="text-sm-left">
-                    <p class="mb-0">Made with ❤️ by <a href="https://linkedin.com/in/gianfranco-lombardo" target="_blank" class="text-reset">Glombardo</a>.</p>
+                    <p class="mb-0">Made with ❤️ by <a href="https://linkedin.com/in/gianfranco-lombardo" target="_blank" class="text-reset">Glombardo</a></p>
                 </div>
             </div>
 
             <div class="col-sm-6 text-right f-2">
-                <a href="#" target="_blank" class="text-reset"><i class="uil uil-github"></i></a>
+                <a href="https://github.com/gianfrancolombardo/fast-functional-analysis" target="_blank" class="text-reset"><i class="uil uil-github"></i></a>
             </div>
         </div>
     </div>

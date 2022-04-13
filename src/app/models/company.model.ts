@@ -106,23 +106,23 @@ export class Company {
     }
 
     set_hitorical_values() {
-        this.priceEarningsValue = (this.price! * this.priceEarnings!) / this.priceEarnings5Y!
-        this.priceToSalesValue = (this.price! * this.priceToSales!) / this.priceToSales5Y!
-        this.priceBookValueValue = (this.price! * this.priceBookValue!) / this.priceBookValue5Y!
+        this.priceEarningsValue = (this.price! * this.priceEarnings5Y!) / this.priceEarnings!
+        this.priceToSalesValue = (this.price! * this.priceToSales5Y!) / this.priceToSales!
+        this.priceBookValueValue = (this.price! * this.priceBookValue5Y!) / this.priceBookValue!
         this.valueByHistorical = (this.priceEarningsValue + this.priceToSalesValue + this.priceBookValueValue) / 3
 
         console.log('4 '+ this.ticker + ' historical value calculated successfully');
     }
 
     set_industry_values(obj_avg: any) {
-        let assessment_props = ['priceEarnings', 'priceCashFlow', 'priceToSales', 'priceBookValue'];
+        let valuation_props = ['priceEarnings', 'priceCashFlow', 'priceToSales', 'priceBookValue'];
         let values_ratios = [];
 
         if (this.price != null){
-            for (let prop of assessment_props)
+            for (let prop of valuation_props)
                 values_ratios.push((this.price! * obj_avg[prop]) / (<any>this)[prop]);
-
-            this.valueByIndustry = values_ratios.reduce((a, b) => a + b, 0);
+   
+            this.valueByIndustry = values_ratios.reduce((a, b) => a + b, 0) / values_ratios.length;
 
             this.valueIntrinsic = (this.valueByIndustry + this.valueByHistorical!) / 2
 
