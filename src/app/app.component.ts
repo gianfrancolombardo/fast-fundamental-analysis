@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
+import { ViewportScroller } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { fadeInUpOnEnterAnimation, fadeOutUpOnLeaveAnimation, fadeInLeftOnEnterAnimation, fadeOutRightOnLeaveAnimation } from 'angular-animations';
+import { fadeInUpOnEnterAnimation } from 'angular-animations';
+import { forkJoin, Observable } from 'rxjs';
+
 import { Company } from './models/company.model';
 import { ApiService } from './services/api.service';
 import { RowRatioComponent } from './shared/row-ratio/row-ratio.component';
+import { StoreService } from './services/store.service';
 
-
-import { forkJoin, Observable } from 'rxjs';
-import { ViewportScroller } from '@angular/common';
 
 enum Status {
   None,
@@ -27,26 +28,31 @@ enum Positions {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   animations: [
-    fadeInUpOnEnterAnimation({ duration: 300, translate: '50px' })
+    fadeInUpOnEnterAnimation({ duration: 400, translate: '50px' })
   ]
 })
 export class AppComponent {
   STATUS = Status;
   show_modal_apikey = true;
   apikey = "";
+  apikey_error = false;
 
   main_form: FormGroup;
+  main_form_error = false;
   main_status = Status.None;
   main_data: Company[] = [];
 
-  constructor(private _formbuilder: FormBuilder, private _scroller: ViewportScroller, private _api: ApiService) {
-    this.load_apikey()
+  constructor(private _formbuilder: FormBuilder, private _scroller: ViewportScroller, private _api: ApiService, private _store: StoreService) {
+    this.apikey = this._api.load_key();
+    if (this.there_is_apikey())
+      this.show_modal_apikey = false;
 
     this.main_form = this._formbuilder.group({
-      target: ['AAPL', Validators.required],
-      comp1: ['MSFT', Validators.required],
-      comp2: ['GOOG', Validators.required],
-    })
+      target: ['', Validators.required],
+      comp1: ['', Validators.required],
+      comp2: ['', Validators.required],
+    });
+
   }
 
   // API KEY ---------------------------------------*
@@ -58,18 +64,11 @@ export class AppComponent {
     return this.apikey != "";
   }
 
-  load_apikey() {
-    let temp_apikey = localStorage.getItem('apikey')
-    if (temp_apikey != null) {
-      this.apikey = temp_apikey
-      this.show_modal_apikey = false
-    }
-  }
-
   save_apikey() {
     if (this.there_is_apikey()) {
-      localStorage.setItem('apikey', this.apikey)
-      this.show_modal_apikey = false
+      this._api.save_key(this.apikey);
+      this.show_modal_apikey = false;
+      this.apikey_error = false;
     }
   }
 
@@ -97,9 +96,9 @@ export class AppComponent {
   }
 
   start_analyze() {
-
+    this.main_form_error = false;
     if (this.main_form.valid) {
-      
+
       this.main_status = Status.Working;
       this.main_data = new Array(3).fill(null);
 
@@ -109,30 +108,42 @@ export class AppComponent {
         target: this.add_company(this.main_form.value.target, true, Positions.Target, 0),
         comp1: this.add_company(this.main_form.value.comp1, false, Positions.Comp1, 750),
         comp2: this.add_company(this.main_form.value.comp2, false, Positions.Comp2, 1750),
-      }).subscribe(list => {
-        let obj_avg = this.get_avg_obj();
-        this.main_data.push(obj_avg)
-        this.get_target().set_industry_values(obj_avg);
+      }).subscribe(
+        (list) => {
+          let obj_avg = this.get_avg_obj();
+          this.main_data.push(obj_avg)
+          this.get_target().set_industry_values(obj_avg);
 
-        this._scroller.scrollToAnchor("analysis");
+          this._scroller.scrollToAnchor("analysis");
 
-        this.main_status = Status.Done
-      })
-
-
-    }
+          this.main_status = Status.Done
+        },
+        (err) =>{
+          console.log('Analyze error', err);
+          this.main_status = Status.None
+        }
+      )
+    } else
+      this.main_form_error = true
   }
 
-  add_company(ticker: string, target: boolean, index:number, sleep: number) {
+  add_company(ticker: string, target: boolean, index: number, sleep: number) {
     return new Observable(subscriber => {
-      setTimeout((_:any) => {
+      setTimeout((_: any) => {
         this._api.get_ratios(ticker).subscribe((data: any) => {
-          let obj = new Company(this._api, ticker, target, data[0]);
-          this.main_data[index] = obj;
-          console.log('1 ' + ticker + ' ratios ttm obtained successfully')
+          if ('Error Message' in data) {
+            this.apikey_error = true;
+            this.show_modal_apikey = true;
+            subscriber.error(data['Error Message'])
+          } else {
 
-          subscriber.next(obj)
-          subscriber.complete()
+            let obj = new Company(this._api, ticker, target, data[0]);
+            this.main_data[index] = obj;
+            console.log('1 ' + ticker + ' ratios ttm obtained successfully')
+
+            subscriber.next(obj)
+            subscriber.complete()
+          }
         }, err => subscriber.error(err))
       }, sleep);
     });

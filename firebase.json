@@ -1,0 +1,16 @@
+{
+  "hosting": {
+    "public": "dist\\fast-functional-analysis",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

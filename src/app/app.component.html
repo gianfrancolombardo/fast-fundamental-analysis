@@ -26,7 +26,7 @@
 </header>
 <!-- Navbar End -->
 
-<!-- Hero Start -->
+<!-- Main Form ----------------------->
 <section class="bg-half-170  d-table w-100" id="home">
     <div class="container">
         <div class="row mt-5 align-items-center">
@@ -70,7 +70,10 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-12">
+                                    <div class="col-md-8">
+                                        <p class="text-danger mb-0 mt-2" *ngIf="main_form_error">All fields are mandatory</p>
+                                    </div>
+                                    <div class="col-md-4">
                                         <button type="submit" class="btn btn-primary float-right" [disabled]="main_status == STATUS.Working">
                                             <span *ngIf="main_status != STATUS.Working">Analyze</span>
                                             <span *ngIf="main_status == STATUS.Working"><i class="uil uil-spinner loading"></i>
@@ -93,7 +96,6 @@
     </div>
     <!--end container-->
 </section>
-<!-- Hero End -->
 
 <div class="position-relative" *ngIf="main_status != STATUS.None">
     <div class="shape overflow-hidden text-light">
@@ -103,7 +105,7 @@
     </div>
 </div>
 
-<!-- Analysis Start -->
+<!-- Analysis Start ------------------->
 <section class="section bg-light" id="analysis" *ngIf="main_status != STATUS.None"> 
     <div class="container">
         <div class="row justify-content-center">
@@ -217,8 +219,10 @@
                                         <tr class="tr-head bg-light h4">
                                             <td>Efficiency</td>
                                             <td>
+                                                <!--
                                                 <i class="uil uil-check-circle text-success" *ngIf="is_efficiency()"></i>
                                                 <i class="uil uil-times-circle text-danger" *ngIf="!is_efficiency()"></i>
+                                                -->
                                             </td>
                                             <td colspan="3"></td>
                                         </tr>
@@ -251,8 +255,10 @@
                                         <tr class="tr-head bg-light h4">
                                             <td>Valuation</td>
                                             <td>
+                                                <!--
                                                 <i class="uil uil-check-circle text-success" *ngIf="is_valuable()"></i>
                                                 <i class="uil uil-times-circle text-danger" *ngIf="!is_valuable()"></i>
+                                                -->
                                             </td>
                                             <td colspan="3"></td>
                                         </tr>
@@ -309,10 +315,9 @@
         </div>
     </div>
 </section>
-<!-- Analysis End -->
 
 
-<!-- Footer Start -->
+<!-- Footer ---------------------------->
 <footer class="footer footer-bar">
     <div class="container text-center">
         <div class="row align-items-center">
@@ -328,9 +333,9 @@
         </div>
     </div>
 </footer>
-<!-- Footer End -->
 
-<!-- Modal API Key -->
+
+<!-- Modal API Key ---------------------->
 <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" [class.show]="show_modal_apikey">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content rounded shadow border-0">
@@ -341,9 +346,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                <h5>Hey! please entre your API Key</h5>
-                <p>This web use data form <a href="https://site.financialmodelingprep.com/register">Financial Modeling
-                        Prep</a>. Regrister <strong>free</strong> and enter the API key</p>
+                <h5>Hey! We need your 🔑</h5>
+                <p class="mb-1">Well, not we, this web use data from <a href="https://site.financialmodelingprep.com/register">Financial Modeling
+                        Prep</a>. Register <strong>free</strong> and obtain the API key.</p>
+                <p class="text-muted">This data will save locally and never will save to our servers.</p>
+
+                <p class="text-danger" *ngIf="apikey_error">Mmm... it seems that your key is not valid. Please, check it or enter a new one</p>
+
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">

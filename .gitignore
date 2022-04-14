@@ -45,3 +45,10 @@ testem.log
 Thumbs.db
 
 .angular
+
+src\environments\environment.ts
+src\environments\environment.prod.ts
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json

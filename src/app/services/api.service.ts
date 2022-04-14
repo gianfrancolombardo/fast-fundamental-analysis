@@ -12,16 +12,23 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  private load_api(){
-
+  public load_key(){
     let temp_apikey = localStorage.getItem('apikey')
     if (temp_apikey != null)
       this.apikey = temp_apikey
+    return this.apikey;
   }
 
-  private set_apikey(){
+  public save_key(key:string){
+    if (key!=null) {
+      this.apikey = key;
+      localStorage.setItem('apikey', key)
+    }
+  }
+
+  private set_key(){
     if (this.apikey=='')
-      this.load_api()
+      this.load_key()
   }
 
   // Error handling
@@ -42,7 +49,7 @@ export class ApiService {
   }
 
   public get_ratios(ticker:string){
-    this.set_apikey();
+    this.set_key();
 
     return this.http
     .get(this.baseurl + `ratios-ttm/${ticker}?apikey=${this.apikey}`)
@@ -50,7 +57,7 @@ export class ApiService {
   }
 
   public get_ratios_historical(ticker:string){
-    this.set_apikey();
+    this.set_key();
 
     return this.http
     .get(this.baseurl + `ratios/${ticker}?apikey=${this.apikey}`)
@@ -58,7 +65,7 @@ export class ApiService {
   }
 
   public get_price(ticker:string){
-    this.set_apikey();
+    this.set_key();
 
     return this.http
     .get(this.baseurl + `quote-short/${ticker}?apikey=${this.apikey}`)

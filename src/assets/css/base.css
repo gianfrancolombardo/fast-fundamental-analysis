@@ -1733,8 +1733,6 @@ button:not(:disabled) {
 .form-group .form-control {
   -webkit-box-shadow: none;
           box-shadow: none;
-  background-color: #ffffff;
-  border: 1px solid #dee2e6;
   color: #3c4858;
   height: 42px;
   font-size: 13px;

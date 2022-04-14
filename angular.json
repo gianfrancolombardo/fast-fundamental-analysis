@@ -27,13 +27,11 @@
               "src/assets"
             ],
             "styles": [
-              "src/assets/css/bootstrap.min.css",
               "src/assets/css/base.css",
               "src/assets/css/theme.css",
               "src/styles.css"
             ],
-            "scripts": [
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -98,12 +96,21 @@
               "src/assets"
             ],
             "styles": [
-              "src/assets/css/bootstrap.min.css",
               "src/assets/css/base.css",
               "src/assets/css/theme.css",
               "src/styles.css"
             ],
             "scripts": []
+          }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "fast-functional-analysis:build:production",
+            "firebaseProject": "fast-functional-analysis",
+            "firebaseHostingSite": "fast-functional-analysis"
           }
         }
       }
