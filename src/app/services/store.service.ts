@@ -9,8 +9,11 @@ export class StoreService {
 
   constructor(private _firestore: AngularFirestore) { }
 
-  save_company(company:any){
-    let obj = Object.assign({date: new Date()}, company);
+  save_company(company:any, feeling: number){
+    let obj = Object.assign({
+      date: new Date(),
+      feeling: feeling
+    }, company);
     delete obj['_api'];
 
     

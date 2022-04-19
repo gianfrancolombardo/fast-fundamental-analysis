@@ -45,7 +45,8 @@
                                         <div class="form-group">
                                             <div class="position-relative">
                                                 <i class="icons uil uil-crosshair-alt"></i>
-                                                <input class="form-control pl-5" placeholder="Ticker Target" formControlName="target" (input)="toUppercase('target')">
+                                                <input class="form-control pl-5" placeholder="Ticker Target"
+                                                    formControlName="target" (input)="toUppercase('target')">
                                             </div>
                                         </div>
                                     </div>
@@ -54,7 +55,8 @@
                                         <div class="form-group">
                                             <div class="position-relative">
                                                 <i class="icons uil uil-equal-circle"></i>
-                                                <input class="form-control pl-5" placeholder="Ticker competitor 1" formControlName="comp1" (input)="toUppercase('comp1')">
+                                                <input class="form-control pl-5" placeholder="Ticker competitor 1"
+                                                    formControlName="comp1" (input)="toUppercase('comp1')">
                                             </div>
                                         </div>
                                     </div>
@@ -63,7 +65,8 @@
                                         <div class="form-group">
                                             <div class="position-relative">
                                                 <i class="icons uil uil-equal-circle"></i>
-                                                <input class="form-control pl-5" placeholder="Ticker competitor 2" formControlName="comp2" (input)="toUppercase('comp2')">
+                                                <input class="form-control pl-5" placeholder="Ticker competitor 2"
+                                                    formControlName="comp2" (input)="toUppercase('comp2')">
                                             </div>
                                         </div>
                                     </div>
@@ -71,12 +74,15 @@
 
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <p class="text-danger mb-0 mt-2" *ngIf="main_form_error != ''">{{main_form_error}}</p>
+                                        <p class="text-danger mb-0 mt-2" *ngIf="main_form_error != ''">
+                                            {{main_form_error}}</p>
                                     </div>
                                     <div class="col-md-4">
-                                        <button type="submit" class="btn btn-primary float-right" [disabled]="main_status == STATUS.Working">
+                                        <button type="submit" class="btn btn-primary float-right"
+                                            [disabled]="main_status == STATUS.Working">
                                             <span *ngIf="main_status != STATUS.Working">Analyze</span>
-                                            <span *ngIf="main_status == STATUS.Working"><i class="uil uil-spinner loading"></i>
+                                            <span *ngIf="main_status == STATUS.Working"><i
+                                                    class="uil uil-spinner loading"></i>
                                                 Analyzing...</span>
                                         </button>
                                     </div>
@@ -106,12 +112,37 @@
 </div>
 
 <!-- Analysis Start ------------------->
-<section class="section bg-light" id="analysis" *ngIf="main_status != STATUS.None"> 
+<section class="section bg-light" id="analysis" *ngIf="main_status != STATUS.None">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-12 text-center">
+            <div class="col-6">
                 <div class="section-title">
-                    <h4 class="title">Analysis</h4>
+                    <h4 class="title mt-3">Analysis</h4>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="component-wrapper rounded shadow bg-white py-3 px-4" *ngIf="main_status == STATUS.Done"
+                    [@fadeInRightOnEnter]="{ value: '', params: { delay: 300 } }">
+                    <span class="float-left mt-2 pt-1">Possible good investment?</span>
+
+                    <div *ngIf="feeling_status == -1" [@fadeOutOnLeave]="{ value: '', params: { duration: 90 } }">
+                        <a href="#/" class="btn btn-pills btn-soft-danger float-right ml-2"
+                            (click)="save_feeling(FEELING.Bad)">
+                            <i class="uil uil-thumbs-down"></i></a>
+                        <a href="#/" class="btn btn-pills btn-soft-warning float-right ml-2"
+                            (click)="save_feeling(FEELING.DontKnow)">
+                            <i class="uil uil-meh-alt"></i></a>
+                        <a href="#/" class="btn btn-pills btn-soft-success float-right ml-2"
+                            (click)="save_feeling(FEELING.Good)">
+                            <i class="uil uil-thumbs-up"></i></a>
+                       
+                    </div>
+
+                    <div *ngIf="feeling_status != -1" [@fadeInOnEnter]="{ value: '', params: { delay: 100 } }">
+                        <span class="float-right mt-2 pt-1 text-success">Thanks! 😊</span>
+                    </div>
+
+                    <div class="clearfix"></div>
                 </div>
             </div>
         </div>
@@ -131,38 +162,46 @@
         <div *ngIf="main_status == STATUS.Done">
             <!-- Values ---------------------------------->
             <div class="row mb-4">
-                <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2" [@fadeInUpOnEnter]="{ value: '', params: { delay: 50 } }">
+                <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2"
+                    [@fadeInUpOnEnter]="{ value: '', params: { delay: 50 } }">
                     <div class="card counter-box border-0 bg-primary shadow text-center rounded">
                         <div class="card-body py-5">
-                            <h2 class="mb-0 text-light title-dark"><small class="currency">$</small>{{get_target().price | number : '1.2-2'}}</h2>
+                            <h2 class="mb-0 text-light title-dark"><small class="currency">$</small>{{get_target().price
+                                | number : '1.2-2'}}</h2>
                             <h5 class="counter-head text-light title-dark mb-0">Stock Price</h5>
                         </div>
                     </div>
                 </div>
 
 
-                <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2" [@fadeInUpOnEnter]="{ value: '', params: { delay: 75 } }">
+                <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2"
+                    [@fadeInUpOnEnter]="{ value: '', params: { delay: 75 } }">
                     <div class="card counter-box border-0 bg-primary shadow text-center rounded">
                         <div class="card-body py-5">
-                            <h2 class="mb-0 text-light title-dark"><small class="currency">$</small>{{get_target().valueByHistorical | number : '1.2-2'}}</h2>
+                            <h2 class="mb-0 text-light title-dark"><small
+                                    class="currency">$</small>{{get_target().valueByHistorical | number : '1.2-2'}}</h2>
                             <h5 class="counter-head text-light title-dark mb-0">Value by historical</h5>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2" [@fadeInUpOnEnter]="{ value: '', params: { delay: 100 } }">
+                <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2"
+                    [@fadeInUpOnEnter]="{ value: '', params: { delay: 100 } }">
                     <div class="card counter-box border-0 bg-primary shadow text-center rounded">
                         <div class="card-body py-5">
-                            <h2 class="mb-0 text-light title-dark"><small class="currency">$</small>{{get_target().valueByIndustry | number : '1.2-2'}}</h2>
+                            <h2 class="mb-0 text-light title-dark"><small
+                                    class="currency">$</small>{{get_target().valueByIndustry | number : '1.2-2'}}</h2>
                             <h5 class="counter-head text-light title-dark mb-0">Value by industry</h5>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2" [@fadeInUpOnEnter]="{ value: '', params: { delay: 125 } }">
+                <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2"
+                    [@fadeInUpOnEnter]="{ value: '', params: { delay: 125 } }">
                     <div class="card counter-box border-0 bg-primary shadow text-center rounded">
                         <div class="card-body py-5">
-                            <h2 class="mb-0 text-light title-dark"><small class="currency">$</small>{{get_target().valueIntrinsic | number : '1.2-2'}}</h2>
+                            <h2 class="mb-0 text-light title-dark"><small
+                                    class="currency">$</small>{{get_target().valueIntrinsic | number : '1.2-2'}}</h2>
                             <h5 class="counter-head text-light title-dark mb-0">Intrinsic Value</h5>
                         </div>
                     </div>
@@ -230,7 +269,8 @@
                                             prop="inventoryTurnover"></tr>
                                         <tr app-row-ratio [data]="main_data" name="Days Inventory" prop="daysInventory">
                                         </tr>
-                                        <tr app-row-ratio [data]="main_data" name="Assets Turnover" prop="assetTurnover">
+                                        <tr app-row-ratio [data]="main_data" name="Assets Turnover"
+                                            prop="assetTurnover">
                                         </tr>
 
                                         <!-- Profitability ---------------------->
@@ -262,11 +302,15 @@
                                             </td>
                                             <td colspan="3"></td>
                                         </tr>
-                                        <tr app-row-ratio [data]="main_data" name="Price Earning" prop="priceEarnings"></tr>
-                                        <tr app-row-ratio [data]="main_data" name="Price Cash Flow" prop="priceCashFlow">
+                                        <tr app-row-ratio [data]="main_data" name="Price Earning" prop="priceEarnings">
                                         </tr>
-                                        <tr app-row-ratio [data]="main_data" name="Price Sales" prop="priceToSales"></tr>
-                                        <tr app-row-ratio [data]="main_data" name="Price Book Value" prop="priceBookValue">
+                                        <tr app-row-ratio [data]="main_data" name="Price Cash Flow"
+                                            prop="priceCashFlow">
+                                        </tr>
+                                        <tr app-row-ratio [data]="main_data" name="Price Sales" prop="priceToSales">
+                                        </tr>
+                                        <tr app-row-ratio [data]="main_data" name="Price Book Value"
+                                            prop="priceBookValue">
                                         </tr>
 
 
@@ -299,9 +343,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr app-row-hist [data]="get_target()" name="Price Earning" prop="priceEarnings">
+                                        <tr app-row-hist [data]="get_target()" name="Price Earning"
+                                            prop="priceEarnings">
                                         </tr>
-                                        <tr app-row-hist [data]="get_target()" name="Price Sales" prop="priceToSales"></tr>
+                                        <tr app-row-hist [data]="get_target()" name="Price Sales" prop="priceToSales">
+                                        </tr>
                                         <tr app-row-hist [data]="get_target()" name="Price Book Value"
                                             prop="priceBookValue"></tr>
                                     </tbody>
@@ -323,12 +369,14 @@
         <div class="row align-items-center">
             <div class="col-sm-6">
                 <div class="text-sm-left">
-                    <p class="mb-0">Made with ❤️ by <a href="https://linkedin.com/in/gianfranco-lombardo" target="_blank" class="text-reset">Glombardo</a></p>
+                    <p class="mb-0">Made with ❤️ by <a href="https://linkedin.com/in/gianfranco-lombardo"
+                            target="_blank" class="text-reset">Glombardo</a></p>
                 </div>
             </div>
 
             <div class="col-sm-6 text-right f-2">
-                <a href="https://github.com/gianfrancolombardo/fast-functional-analysis" target="_blank" class="text-reset"><i class="uil uil-github"></i></a>
+                <a href="https://github.com/gianfrancolombardo/fast-functional-analysis" target="_blank"
+                    class="text-reset"><i class="uil uil-github"></i></a>
             </div>
         </div>
     </div>
@@ -336,7 +384,7 @@
 
 
 <!-- Modal API Key ---------------------->
-<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" [class.show]="show_modal_apikey">
+<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" [class.show]="apikey_show_modal">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content rounded shadow border-0">
             <div class="modal-header">
@@ -347,11 +395,13 @@
             </div>
             <div class="modal-body">
                 <h5>Hey! We need your 🔑</h5>
-                <p class="mb-1">Well, not we, this web use data from <a href="https://site.financialmodelingprep.com/register">Financial Modeling
+                <p class="mb-1">Well, not we, this web use data from <a
+                        href="https://site.financialmodelingprep.com/register">Financial Modeling
                         Prep</a>. Register <strong>free</strong> and obtain the API key.</p>
                 <p class="text-muted">This data will save locally and never will save to our servers.</p>
 
-                <p class="text-danger" *ngIf="apikey_error">Mmm... it seems that your key is not valid. Please, check it or enter a new one</p>
+                <p class="text-danger" *ngIf="apikey_error">Mmm... it seems that your key is not valid. Please, check it
+                    or enter a new one</p>
 
                 <div class="row">
                     <div class="col-12">
@@ -370,4 +420,4 @@
         </div>
     </div>
 </div>
-<div class="modal-backdrop fade show" *ngIf="show_modal_apikey"></div>
+<div class="modal-backdrop fade show" *ngIf="apikey_show_modal"></div>

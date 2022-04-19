@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { fadeInUpOnEnterAnimation } from 'angular-animations';
+import { fadeInUpOnEnterAnimation, fadeInRightOnEnterAnimation, fadeInOnEnterAnimation, fadeOutOnLeaveAnimation  } from 'angular-animations';
 import { forkJoin, Observable } from 'rxjs';
 
 import { Company } from './models/company.model';
@@ -23,17 +23,28 @@ enum Positions {
   Avg
 }
 
+enum Feeling{
+  Good,
+  DontKnow,
+  Bad
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   animations: [
-    fadeInUpOnEnterAnimation({ duration: 400, translate: '50px' })
+    fadeInUpOnEnterAnimation({ duration: 400, translate: '50px' }),
+    fadeInRightOnEnterAnimation({ duration: 600, translate: '50px' }),
+    fadeInOnEnterAnimation(),
+    fadeOutOnLeaveAnimation()
   ]
 })
 export class AppComponent {
   STATUS = Status;
-  show_modal_apikey = true;
+  FEELING = Feeling;
+
+  apikey_show_modal = true;
   apikey = "";
   apikey_error = false;
 
@@ -42,22 +53,24 @@ export class AppComponent {
   main_status = Status.None;
   main_data: Company[] = [];
 
+  feeling_status = -1;
+
   constructor(private _formbuilder: FormBuilder, private _scroller: ViewportScroller, private _api: ApiService, private _store: StoreService) {
     this.apikey = this._api.load_key();
     if (this.there_is_apikey())
-      this.show_modal_apikey = false;
+      this.apikey_show_modal = false;
 
     this.main_form = this._formbuilder.group({
-      target: ['', Validators.required],
-      comp1: ['', Validators.required],
-      comp2: ['', Validators.required],
+      target: ['AAPL', Validators.required],
+      comp1: ['GOOG', Validators.required],
+      comp2: ['MSFT', Validators.required],
     });
 
   }
 
   // API KEY ---------------------------------------*
   toogle_modal_apikey() {
-    this.show_modal_apikey = !this.show_modal_apikey
+    this.apikey_show_modal = !this.apikey_show_modal
   }
 
   there_is_apikey() {
@@ -67,7 +80,7 @@ export class AppComponent {
   save_apikey() {
     if (this.there_is_apikey()) {
       this._api.save_key(this.apikey);
-      this.show_modal_apikey = false;
+      this.apikey_show_modal = false;
       this.apikey_error = false;
     }
   }
@@ -132,7 +145,7 @@ export class AppComponent {
         this._api.get_ratios(ticker).subscribe((data: any) => {
           if ('Error Message' in data) {
             this.apikey_error = true;
-            this.show_modal_apikey = true;
+            this.apikey_show_modal = true;
             subscriber.error(data['Error Message'])
           } else {
 
@@ -185,5 +198,15 @@ export class AppComponent {
 
   toUppercase(field:string) {
     this.main_form.get(field)!.setValue(this.main_form.get(field)!.value.toUpperCase()); 
+  }
+
+  save_feeling(feeling:number){
+    let target = this.get_target();
+    
+    this._store.save_company(target, feeling).then(
+      (res) => {
+        this.feeling_status = feeling;
+      }
+    )
   }
 }
