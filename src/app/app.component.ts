@@ -38,7 +38,7 @@ export class AppComponent {
   apikey_error = false;
 
   main_form: FormGroup;
-  main_form_error = false;
+  main_form_error = '';
   main_status = Status.None;
   main_data: Company[] = [];
 
@@ -73,7 +73,6 @@ export class AppComponent {
   }
 
   // Functional Analysis --------------------------------*
-
   get_target() {
     return this.main_data[Positions.Target];
   }
@@ -82,7 +81,7 @@ export class AppComponent {
     return arr.reduce((total, current) => total += current[prop], 0) / arr.length;
   }
 
-  get_avg_obj() {
+  get_avg_ratios() {
     let obj_avg = (<any>new Company(this._api, 'AVG'));
     let props = Object.getOwnPropertyNames(this.get_target());
 
@@ -96,12 +95,11 @@ export class AppComponent {
   }
 
   start_analyze() {
-    this.main_form_error = false;
+    this.main_form_error = '';
     if (this.main_form.valid) {
 
       this.main_status = Status.Working;
       this.main_data = new Array(3).fill(null);
-
       this._scroller.scrollToAnchor("analysis");
 
       forkJoin({
@@ -110,7 +108,7 @@ export class AppComponent {
         comp2: this.add_company(this.main_form.value.comp2, false, Positions.Comp2, 1750),
       }).subscribe(
         (list) => {
-          let obj_avg = this.get_avg_obj();
+          let obj_avg = this.get_avg_ratios();
           this.main_data.push(obj_avg)
           this.get_target().set_industry_values(obj_avg);
 
@@ -118,13 +116,14 @@ export class AppComponent {
 
           this.main_status = Status.Done
         },
-        (err) =>{
+        (err) => {
           console.log('Analyze error', err);
-          this.main_status = Status.None
+          this.main_form_error = err;
+          this.main_status = Status.None;
         }
       )
     } else
-      this.main_form_error = true
+      this.main_form_error = "All fields are mandatory";
   }
 
   add_company(ticker: string, target: boolean, index: number, sleep: number) {
@@ -137,12 +136,17 @@ export class AppComponent {
             subscriber.error(data['Error Message'])
           } else {
 
-            let obj = new Company(this._api, ticker, target, data[0]);
-            this.main_data[index] = obj;
-            console.log('1 ' + ticker + ' ratios ttm obtained successfully')
+            if (data[0]['currentRatioTTM'] == null) {
+              subscriber.error("No data to " + ticker)
+            } else {
 
-            subscriber.next(obj)
-            subscriber.complete()
+              let obj = new Company(this._api, ticker, target, data[0]);
+              this.main_data[index] = obj;
+              console.log('1 ' + ticker + ' ratios ttm obtained successfully')
+
+              subscriber.next(obj)
+              subscriber.complete()
+            }
           }
         }, err => subscriber.error(err))
       }, sleep);
@@ -175,5 +179,11 @@ export class AppComponent {
 
   is_valuable() {
     return true
+  }
+
+  // Utils -----------------------------------*
+
+  toUppercase(field:string) {
+    this.main_form.get(field)!.setValue(this.main_form.get(field)!.value.toUpperCase()); 
   }
 }

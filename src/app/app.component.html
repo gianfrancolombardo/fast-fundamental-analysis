@@ -45,7 +45,7 @@
                                         <div class="form-group">
                                             <div class="position-relative">
                                                 <i class="icons uil uil-crosshair-alt"></i>
-                                                <input class="form-control pl-5" placeholder="Ticker Target" formControlName="target">
+                                                <input class="form-control pl-5" placeholder="Ticker Target" formControlName="target" (input)="toUppercase('target')">
                                             </div>
                                         </div>
                                     </div>
@@ -54,7 +54,7 @@
                                         <div class="form-group">
                                             <div class="position-relative">
                                                 <i class="icons uil uil-equal-circle"></i>
-                                                <input class="form-control pl-5" placeholder="Ticker competitor 1" formControlName="comp1">
+                                                <input class="form-control pl-5" placeholder="Ticker competitor 1" formControlName="comp1" (input)="toUppercase('comp1')">
                                             </div>
                                         </div>
                                     </div>
@@ -63,7 +63,7 @@
                                         <div class="form-group">
                                             <div class="position-relative">
                                                 <i class="icons uil uil-equal-circle"></i>
-                                                <input class="form-control pl-5" placeholder="Ticker competitor 2" formControlName="comp2">
+                                                <input class="form-control pl-5" placeholder="Ticker competitor 2" formControlName="comp2" (input)="toUppercase('comp2')">
                                             </div>
                                         </div>
                                     </div>
@@ -71,7 +71,7 @@
 
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <p class="text-danger mb-0 mt-2" *ngIf="main_form_error">All fields are mandatory</p>
+                                        <p class="text-danger mb-0 mt-2" *ngIf="main_form_error != ''">{{main_form_error}}</p>
                                     </div>
                                     <div class="col-md-4">
                                         <button type="submit" class="btn btn-primary float-right" [disabled]="main_status == STATUS.Working">

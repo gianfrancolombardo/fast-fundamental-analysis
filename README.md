@@ -1,5 +1,7 @@
 # FastFunctionalAnalysis
 
+[Live](https://fast-functional-analysis.web.app/)
+
 This project tries to ease and speed up one way of functional analysis based on the strategy taught in the course [Functional Analysis](https://platzi.com/cursos/inversion-bolsa/) on Platzi.
 
 The goal is to get all ratios and calculate the intrinsic values for their post analysis. 

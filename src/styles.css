@@ -23,7 +23,7 @@
     animation: rotating 2s linear infinite;
 }
 
-@-webkit-keyframes rotating{
+@-webkit-keyframes rotating {
     from {
         -webkit-transform: rotate(0deg);
         -o-transform: rotate(0deg);
@@ -63,7 +63,14 @@
     font-size: 30px;
 }
 
-.currency{
+.currency {
     font-size: 50%;
     vertical-align: middle;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+.uppercase::placeholder{
+    text-transform: none;
 }
