@@ -1,4 +1,4 @@
-# FastFunctionalAnalysis
+# FastFundamentalAnalysis
 
 [Live](https://fast-functional-analysis.web.app/)
 

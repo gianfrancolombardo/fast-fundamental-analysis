@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist\\fast-functional-analysis",
+    "public": "dist\\fast-fundamental-analysis",
     "ignore": [
       "firebase.json",
       "**/.*",
