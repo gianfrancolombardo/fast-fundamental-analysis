@@ -5,13 +5,13 @@
 export const environment = {
   production: false,
   firebase: {
-    projectId: 'fast-functional-analysis',
-    appId: '1:44218449385:web:d1b145cb761777c3621f78',
-    storageBucket: 'fast-functional-analysis.appspot.com',
-    apiKey: 'AIzaSyAbN2FCz5ja5URxG24n57maUD3mrH9q_54',
-    authDomain: 'fast-functional-analysis.firebaseapp.com',
-    messagingSenderId: '44218449385',
-    measurementId: 'G-F88HT4GY2S',
+    apiKey: "AIzaSyCiL6sigh4m5NWpxzzpXvnQ9mbxOOXxC0w",
+    authDomain: "fast-fundamental-analysis.firebaseapp.com",
+    projectId: "fast-fundamental-analysis",
+    storageBucket: "fast-fundamental-analysis.appspot.com",
+    messagingSenderId: "164091655818",
+    appId: "1:164091655818:web:13ab2c4f102f7cba6e5f73",
+    measurementId: "G-WM9G50N1SN"
   }
 };
 

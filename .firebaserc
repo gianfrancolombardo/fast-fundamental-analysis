@@ -1,14 +1,14 @@
 {
   "targets": {
-    "fast-functional-analysis": {
+    "fast-fundamental-analysis": {
       "hosting": {
-        "fast-functional-analysis": [
-          "fast-functional-analysis"
+        "fast-fundamental-analysis": [
+          "fast-fundamental-analysis"
         ]
       }
     }
   },
   "projects": {
-    "default": "fast-functional-analysis"
+    "default": "fast-fundamental-analysis"
   }
 }

@@ -85,7 +85,7 @@ export class AppComponent {
     }
   }
 
-  // Functional Analysis --------------------------------*
+  // Fundamental Analysis --------------------------------*
   get_target() {
     return this.main_data[Positions.Target];
   }
